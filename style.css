@@ -6,13 +6,10 @@
 body {
     background-color: rgb(49, 47, 47);
     font-size: 18px;
-    width: 100%;
     margin: 0;
     padding: 0;
-    height: 100vh;
     background-color: rgb(236, 228, 228);
     font-family: Arial, Helvetica, sans-serif;
-    overflow-x: hidden;
 }
 
 :focus {
@@ -24,10 +21,10 @@ button {
     font-weight: bold;
 }
 
+/*calculator design*/
 .calculator {
-    width: 100%;
     display: grid;
-    grid-template-columns: repeat(4, 90px);
+    grid-template-columns: repeat(5, 90px);
     grid-template-rows: repeat(6, 90px);
     color: black;
     grid-gap: 5px;
@@ -38,41 +35,45 @@ button {
     -o-border-radius: 10px;
     font-weight: bolder;
     font-size: 28px;
-    justify-content: center;
     place-content: center;
+    height: 100vh;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    margin: 0;
-}
-
-.input {
-    grid-column: span 4;
+/*result screen view*/
+.result-screen {
+    grid-column: span 5;
     position: relative;
-    width: 125%;
-    min-height: 100%;
-    max-height: 1000%;
+    width: 100%;
     border: 2px solid coral;
     box-shadow: -4px -4px 7px rgb(255, 81, 18, .2), 4px 4px 7px rgba(243, 138, 100, .4);
-    transition: background-color .4s ease-out;
-    -webkit-transition: background-color .4s ease-out;
-    -moz-transition: background-color .4s ease-out;
-    -ms-transition: background-color .4s ease-out;
-    -o-transition: background-color .4s ease-out;
+    transition: background-color .4s ease-out, transform .4s ease-out .3s;
+    -webkit-transition: background-color .4s ease-out, transform .4s ease-out .3s;
+    -moz-transition: background-color .4s ease-out, transform .4s ease-out .3s;
+    -ms-transition: background-color .4s ease-out, transform .4s ease-out .3s;
+    -o-transition: background-color .4s ease-out, transform .4s ease-out .3s;
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
+    transform: scaleX(0);
+    -webkit-transform: scaleX(0);
+    -moz-transform: scaleX(0);
+    -ms-transform: scaleX(0);
+    -o-transform: scaleX(0);
 }
 
-.input:hover,
-.input:focus {
+.result-screen:hover,
+.result-screen:focus {
     background-color: rgb(245, 166, 137);
+}
+
+.result-screen.show {
+    transform: scaleX(1);
+    -webkit-transform: scaleX(1);
+    -moz-transform: scaleX(1);
+    -ms-transform: scaleX(1);
+    -o-transform: scaleX(1);
 }
 
 .view {
@@ -117,6 +118,7 @@ input[type=number]::-webkit-outer-spin-button {
     -o-transform: translateY(0);
 }
 
+/* result count*/
 .result {
     position: absolute;
     top: 5px;
@@ -124,11 +126,11 @@ input[type=number]::-webkit-outer-spin-button {
     opacity: .6;
 }
 
+/*numbers btn styles*/
 .numbers {
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
     background-color: rgb(236, 228, 228);
     width: 100%;
     height: 100%;
@@ -137,6 +139,17 @@ input[type=number]::-webkit-outer-spin-button {
     border: none;
     outline: none;
     font-size: 28px;
+    opacity: 0;
+    transform: translateX(-100px);
+    -webkit-transform: translateX(-100px);
+    -moz-transform: translateX(-100px);
+    -ms-transform: translateX(-100px);
+    -o-transform: translateX(-100px);
+    transition: transform .4s ease-out, opacity .4s ease-in;
+    -webkit-transition: transform .4s ease-out, opacity .4s ease-in;
+    -moz-transition: transform .4s ease-out, opacity .4s ease-in;
+    -ms-transition: transform .4s ease-out, opacity .4s ease-in;
+    -o-transition: transform .4s ease-out, opacity .4s ease-in;
 }
 
 .numbers:hover,
@@ -144,8 +157,18 @@ input[type=number]::-webkit-outer-spin-button {
     box-shadow: inset -4px -4px 7px rgba(0, 0, 0, 0.103), inset 4px 4px 7px rgb(255, 255, 255);
 }
 
-.functions {
-    grid-column: 4/5;
+.numbers.show {
+    opacity: 1;
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+}
+
+/*opertions btn styles and composition*/
+.operations {
+    grid-column: 4/6;
     grid-row: 2/7;
     display: grid;
     grid-template-rows: repeat(5, 90px);
@@ -182,6 +205,11 @@ input[type=number]::-webkit-outer-spin-button {
     -moz-transition: background-color .4s ease-out;
     -ms-transition: background-color .4s ease-out;
     -o-transition: background-color .4s ease-out;
+    transform: scale(0);
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    -o-transform: scale(0);
 }
 
 .actions:hover,
@@ -189,7 +217,7 @@ input[type=number]::-webkit-outer-spin-button {
     box-shadow: inset -4px -4px 7px rgb(255, 81, 18, .5), inset 4px 4px 7px rgb(236, 172, 149);
 }
 
-.actions.disabled {
+.actions.action-on {
     background-color: rgb(42, 55, 228);
     box-shadow: -4px -4px 7px rgba(73, 113, 241, 0.2), 4px 4px 7px rgba(0, 22, 119, 0.4);
     text-shadow: 3px 3px 10px rgb(10, 1, 61), -3px -3px 10px rgb(134, 142, 255);
@@ -201,6 +229,57 @@ input[type=number]::-webkit-outer-spin-button {
 
 .actions:nth-child(5) {
     grid-row: span 2;
+}
+
+.actions.show {
+    animation: scale-up .5s ease-out forwards .2s;
+    -webkit-animation: scale-up .5s ease-out forwards .2s;
+}
+
+.operation:disabled {
+    background-color: rgb(253, 166, 135);
+}
+
+@keyframes scale-up {
+    0% {
+        transform: scale(0);
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -ms-transform: scale(0);
+        -o-transform: scale(0);
+    }
+
+    33% {
+        transform: scale(0.6);
+        -webkit-transform: scale(0.6);
+        -moz-transform: scale(0.6);
+        -ms-transform: scale(0.6);
+        -o-transform: scale(0.6);
+    }
+
+    66% {
+        transform: scale(0.9);
+        -webkit-transform: scale(0.9);
+        -moz-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        -o-transform: scale(0.9);
+    }
+
+    80% {
+        transform: scale(1.1);
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+    }
 }
 
 .cosinus {
@@ -217,10 +296,10 @@ input[type=number]::-webkit-outer-spin-button {
 
     .calculator {
         grid-template-columns: repeat(4, 50px);
-        grid-template-rows: repeat(6, 50px);
+        grid-template-rows: 90px repeat(5, 50px);
     }
 
-    .functions {
+    .operations {
         grid-template-columns: repeat(2, 50px);
         grid-template-rows: repeat(5, 50px);
     }
@@ -233,13 +312,13 @@ input[type=number]::-webkit-outer-spin-button {
 @media screen and (max-width: 370px) {
 
     .calculator {
-        grid-template-columns: repeat(4, 40px);
-        grid-template-rows: repeat(6, 40px);
+        grid-template-columns: repeat(4, 50px);
+        grid-template-rows: 70px repeat(5, 50px);
     }
 
-    .functions {
-        grid-template-columns: repeat(2, 40px);
-        grid-template-rows: repeat(5, 40px);
+    .operations {
+        grid-template-columns: repeat(2, 50px);
+        grid-template-rows: repeat(5, 50px);
     }
 
     .actions {
